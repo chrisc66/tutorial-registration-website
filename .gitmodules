@@ -1,0 +1,6 @@
+[submodule "django-rest-api-mongodb"]
+	path = django-rest-api-mongodb
+	url = git@github.com:chrisc66/django-rest-api-mongodb.git
+[submodule "angular-11-crud-app"]
+	path = angular-11-crud-app
+	url = git@github.com:chrisc66/angular-11-crud-app.git
