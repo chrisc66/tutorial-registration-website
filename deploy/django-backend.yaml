@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+  labels:
+    app: tutorial-crud
+spec:
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+  selector:
+    role: django
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+  labels:
+    app: tutorial-crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tutorial-crud
+  template:
+    metadata:
+      labels:
+        app: tutorial-crud
+    spec:
+      containers:
+      - name: django
+        image: chrisc66/tutorial-crud:django-backend
+        ports:
+        - name: django-port
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
+            memory: 128Mi
+          limits:
+            cpu: 1
+            memory: 512Mi

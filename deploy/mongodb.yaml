@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    app: tutorial-crud
+spec:
+  ports:
+  - protocol: TCP
+    port: 30017
+    targetPort: 27017
+    nodePort: 30017
+  type: NodePort
+  selector:
+    role: mongo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: tutorial-crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tutorial-crud
+  template:
+    metadata:
+      labels:
+        app: tutorial-crud
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:latest
+        ports:
+        - name: mongo-port
+          containerPort: 27017
+        resources:
+          requests:
+            cpu: 200m
+            memory: 128Mi
+          limits:
+            cpu: 1
+            memory: 512Mi
