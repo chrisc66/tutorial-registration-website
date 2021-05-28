@@ -18,5 +18,10 @@ ENV PATH="/home/django/.local/bin:$PATH"
 RUN pip install djongo djangorestframework django-cors-headers
 COPY --chown=django docker-entrypoint.sh /home/django/.local/bin/docker-entrypoint.sh
 
+# Replacing Django settings.py
+RUN rm -f /usr/app/django-rest-api-mongodb-master/DjangoRestApiMongoDB/DjangoRestApiMongoDB/settings.py
+COPY --chown=django settings.py /usr/app/django-rest-api-mongodb-master/DjangoRestApiMongoDB/DjangoRestApiMongoDB/settings.py
+
 # Starting application
-ENTRYPOINT [ "docker-entrypoint.sh", "/usr/app/django-rest-api-mongodb-master/DjangoRestApiMongoDB" ]
+EXPOSE 8000
+CMD [ "docker-entrypoint.sh", "/usr/app/django-rest-api-mongodb-master/DjangoRestApiMongoDB" ]

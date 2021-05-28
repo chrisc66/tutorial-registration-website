@@ -5,10 +5,13 @@ if [[ $# -ne 1 ]]; then
     echo "Usage: docker-entrypoint.sh <path_to_django_manage_py>"
 fi
 
-# Apply database migrations
-echo "Apply database migrations ..."
-python $1/manage.py migrate
+cd $1
 
-# Start server
+# Apply database migrations
+echo "Applying migrations ..."
+python manage.py makemigrations
+python manage.py migrate
+
+# Start server on default port 8000
 echo "Starting server ..."
-python $1/manage.py runserver 8080
+python manage.py runserver --noreload 0.0.0.0:8000

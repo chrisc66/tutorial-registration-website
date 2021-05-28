@@ -3,16 +3,15 @@ kind: Service
 metadata:
   name: mongo-service
   labels:
-    app: tutorial-crud
+    app: tutorial-crud-mongo
 spec:
   ports:
   - protocol: TCP
-    port: 30017
+    port: 27017
     targetPort: 27017
-    nodePort: 30017
-  type: NodePort
+  type: ClusterIP 
   selector:
-    role: mongo
+    app: tutorial-crud-mongo
 
 ---
 
@@ -21,16 +20,16 @@ kind: Deployment
 metadata:
   name: mongo-deployment
   labels:
-    app: tutorial-crud
+    app: tutorial-crud-mongo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tutorial-crud
+      app: tutorial-crud-mongo
   template:
     metadata:
       labels:
-        app: tutorial-crud
+        app: tutorial-crud-mongo
     spec:
       containers:
       - name: mongo
@@ -40,8 +39,8 @@ spec:
           containerPort: 27017
         resources:
           requests:
-            cpu: 200m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
           limits:
-            cpu: 1
-            memory: 512Mi
+            cpu: 300m
+            memory: 128Mi

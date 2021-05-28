@@ -3,14 +3,15 @@ kind: Service
 metadata:
   name: angular-service
   labels:
-    app: tutorial-crud
+    app: tutorial-crud-angular
 spec:
   ports:
-  - port: 8081
+  - protocol: TCP
+    port: 8081
     targetPort: 8081
-  type: NodePort
+  type: LoadBalancer
   selector:
-    role: angular
+    app: tutorial-crud-angular
 
 ---
 
@@ -19,16 +20,16 @@ kind: Deployment
 metadata:
   name: angular-deployment
   labels:
-    app: tutorial-crud
+    app: tutorial-crud-angular
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tutorial-crud
+      app: tutorial-crud-angular
   template:
     metadata:
       labels:
-        app: tutorial-crud
+        app: tutorial-crud-angular
     spec:
       containers:
       - name: angular
@@ -38,8 +39,8 @@ spec:
           containerPort: 8081
         resources:
           requests:
-            cpu: 200m
-            memory: 128Mi
+            cpu: 500m
+            memory: 1Gi
           limits:
-            cpu: 1
-            memory: 512Mi
+            cpu: 1500m
+            memory: 2Gi
